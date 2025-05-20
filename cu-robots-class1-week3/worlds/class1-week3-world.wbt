@@ -3,7 +3,6 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/containers/protos/WoodenBox.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Copper.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puckDistanceSensor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/solids/protos/SolidPipe.proto"
@@ -11,29 +10,15 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943999999999994
-  position 3.433989335908599e-06 3.4339990461179525e-06 2.0309501883737076
+  orientation -0.37316513644434984 0.380705444356004 0.8460562307436589 1.717440099624662
+  position -0.013597717502976336 -0.6611491426761048 0.7614856520134834
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  translation 0.0454034 -0.0277066 1.33227e-14
-  floorTileSize 0.25 0.25
-  wallHeight 0.05
-}
-WoodenBox {
-  translation -0.0529114 -0.204492 0.05
-  size 0.1 0.1 0.1
-  mass 0.2
-}
-WoodenBox {
-  translation 0.119239 0.193764 0.05
-  rotation 0 0 1 -1.8325953071795862
-  name "wooden box(1)"
-  size 0.1 0.1 0.1
-  mass 0.2
+  floorSize 3 3
 }
 Robot {
   children [
@@ -55,6 +40,7 @@ Robot {
       ]
       endPoint DEF EPUCK_LEFT_WHEEL Solid {
         translation 0 0.026 0.02
+        rotation 0 1 0 0
         children [
           DEF EPUCK_WHEEL Pose {
             rotation 1 0 0 -1.570796
@@ -206,6 +192,7 @@ Robot {
       ]
       endPoint DEF EPUCK_RIGHT_WHEEL Solid {
         translation 0 -0.026 0.02
+        rotation 0 1 0 0
         children [
           Pose {
             rotation 1 0 0 3.14159
@@ -1087,7 +1074,34 @@ Robot {
       0 0 0
     ]
   }
-  controller "epuck_go_forward"
+  controller "class1-week3"
   cpuConsumption 1.11
   remoteControl "e-puck_bluetooth"
+}
+DEF O1 Solid {
+  translation 0.25 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.15 0.15
+      }
+    }
+  ]
+}
+DEF O2 Solid {
+  translation -0.25 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.2 0.15
+      }
+    }
+  ]
+  name "solid(1)"
 }
