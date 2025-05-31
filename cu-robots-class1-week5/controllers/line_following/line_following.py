@@ -1,5 +1,7 @@
 from controller import Robot
 import math
+from matplotlib import pyplot as plt
+import numpy as np
 
 # ===== Robot Initialization =====
 robot = Robot()
@@ -46,6 +48,26 @@ REQUIRED_BLACK_COUNT = 10  # Number of consecutive black detections to stop
 lap_started = False        # Flag indicating lap has started
 total_distance = 0.0       # Total distance traveled
 
+
+lidar = robot.getDevice('LDS-01')
+lidar.enable(timestep)
+lidar.enablePointCloud()
+
+
+# ranges = lidar.getRangeImage()
+# print(f"데이터 포인트 수: {len(ranges)}")
+
+# print(f"데이터 타입: {type(ranges)}")
+
+# ranges = lidar.getRangeImage()
+# print(f"Range 데이터 개수: {len(ranges)}")
+# print(f"데이터 타입: {type(ranges)}")
+
+display = robot.getDevice('display')
+angles = np.linspace(3.1415, -3.1415, 360)
+
+
+
 print("Starting odometry-based localization...")
 print(f"Initial position: xw={xw:.3f}, yw={yw:.3f}, alpha={math.degrees(alpha):.1f}°")
 
@@ -54,6 +76,77 @@ while robot.step(timestep) != -1:
     # ----- Read Sensor Data -----
     g = [gsensor.getValue() for gsensor in gs]  # Ground sensor values (0~1000)
     encoderValues = [encoder[0].getValue(), encoder[1].getValue()]  # Encoder readings
+    
+    # ranges = lidar.getRangeImage()
+    # print(f"Range 데이터 개수: {len(ranges)}")
+    # print(f"데이터 타입: {type(ranges)}")
+    # print(ranges[0],ranges[1],ranges[2])
+    # 또는 더 간단하게:
+
+    ranges = lidar.getRangeImage()
+   
+    x_r, y_r = [], []
+    x_w, y_w = [], []
+    
+    # w_R_r = np.array([
+        # [np.cos(alpha), -np.sin(alpha)],
+        # [np.sin(alpha), np.cos(alpha)]
+    # ])
+    
+    w_T_r = np.array([
+        [np.cos(alpha), -np.sin(alpha), xw],
+        [np.sin(alpha), np.cos(alpha),  yw],
+        [0,             0,              1]
+    ])
+    
+    X_i = np.array([ranges*np.cos(angles), ranges*np.sin(angles), np.ones(360,)])
+    # D = w_T_r @ np.array([[x_i], [y_i], [1]])
+    D = w_T_r @ X_i
+    
+    # X_w = np.array([[xw], [yw]])
+    # print(w_R_r)
+    print(w_T_r)
+
+    # for i, angle in enumerate(angles):
+        # x_i = ranges[i]*np.cos(angle)
+        # y_i = ranges[i]*np.sin(angle)
+        # x_r.append(x_i)
+        # y_r.append(y_i)
+        
+        # D = w_R_r @ np.array([[x_i], [y_i]]) + X_w
+        # D = w_T_r @ np.array([[x_i], [y_i], [1]])
+        
+        # x_w.append(np.cos(alpha)*x_i            + np.cos(alpha+math.pi/2)*y_i + xw)
+        # y_w.append(np.cos(alpha-math.pi/2)*x_i  + np.cos(alpha)*y_i + yw)
+        
+        # x_w.append(D[0])
+        # y_w.append(D[1])
+        
+    # plt.ion()
+    # plt.plot(x_w, y_w, '.')
+    # plt.pause(0.01)
+    # plt.show()
+
+    plt.ion()
+    plt.plot(D[0,:], D[1,:], '.')
+    plt.pause(0.01)
+    plt.show()        
+    
+
+    # fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+    # ax.plot(angles, ranges, '.')
+    # plt.show() 
+    # angles = np.linspace(-3.1415, 3.1416, 360)
+    # angles = [np.radians(i) for i in range(len(ranges))]
+
+    # Polar plot 생성
+    # fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+    # ax.plot(angles, ranges, '.')
+    # plt.show()
+    # fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})       
+    # ax.plot(angles,ranges,'.')
+    # plt.show()
+    
     
     # Skip odometry update on the very first iteration
     if first_iteration:
