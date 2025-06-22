@@ -11,12 +11,13 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Carafe.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/breakfast/protos/JamJar.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/balls/protos/PingPongBall.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.5783119213679273 -0.5761473057414668 -0.5775894767831086 4.18589885829573
-  position 0.5061617019498769 0.2387163995299012 2.3620525126420278
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943999999999994
+  position 0.3049936273785941 0.24999362736057457 0.034666858452163475
 }
 TexturedBackground {
 }
@@ -1552,10 +1553,12 @@ Robot {
       0 0 0
     ]
   }
-  controller "line_following"
+  controller "trajectory_follower"
   cpuConsumption 1.11
   remoteControl "e-puck_bluetooth"
 }
 JamJar {
   translation 0.504707 0.236678 2.04281e-14
+}
+PingPongBall {
 }

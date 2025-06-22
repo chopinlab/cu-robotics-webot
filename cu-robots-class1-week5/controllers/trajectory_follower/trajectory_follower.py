@@ -1,10 +1,11 @@
-from controller import Robot
+from controller import Robot, Supervisor
 import math
 from matplotlib import pyplot as plt
 import numpy as np
 
 # ===== Robot Initialization =====
 robot = Robot()
+robot = Supervisor()
 timestep = int(robot.getBasicTimeStep())  # Simulation timestep (default: 32 ms)
 
 # ----- Ground Sensor Initialization -----
@@ -68,11 +69,11 @@ angles = np.linspace(3.1415, -3.1415, 360)
 
 
 
-gps = robot.getDevice('gps')
-gps.enable(timestep)
+# gps = robot.getDevice('gps')
+# gps.enable(timestep)
 
-compass = robot.getDevice('compass')
-compass.enable(timestep)
+# compass = robot.getDevice('compass')
+# compass.enable(timestep)
 
 
 
